@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingScreen() {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
 
         val pagerState = rememberPagerState(initialPage = 0) {
             pages.size
@@ -41,8 +41,7 @@ fun OnBoardingScreen() {
             derivedStateOf {
                 when(pagerState.currentPage){
                     0 -> listOf("","Next")
-                pages.size-1 -> listOf("Back","Welcome")
-
+                    pages.size-1 -> listOf("Back","Welcome")
                     else -> listOf("Back","Next")
                 }
             }
@@ -59,7 +58,7 @@ fun OnBoardingScreen() {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MediumPadding2)
-                .navigationBarsPadding(),
+                ,
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){

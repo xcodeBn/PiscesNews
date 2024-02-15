@@ -10,16 +10,20 @@ data class Page(
 )
 
 
-val pages = listOf(
-    Page(title = "Welcome!",
-        description = "Pisces news! a portfolio project",
-        image = R.drawable.onboarding1
+val pages = listOf<Page>(
+    Page(
+        "Welcome",
+        "Lorem ipsum is simply dummy text of the printing and typesetting inddustry",
+        R.drawable.onboarding1
     ),
-    Page(title = "Learn about latest news!",
-        description = "Latest news here is the most latest latestest to latest the world",
-        image = R.drawable.onboarding2)
-    ,
-    Page(title = "Enjoy the app!",
-        description = "it's made for your enjoyment",
-        image = R.drawable.onboarding3)
+    Page(
+        "Lorem ipsum is simply dummy",
+        "get news here",
+        R.drawable.onboarding2
+    ),
+    Page(
+        "bla bla",
+        "Lorem ipsum is simply dummy text of the printing and typesetting inddustry",
+        R.drawable.onboarding3
+    ),
 )

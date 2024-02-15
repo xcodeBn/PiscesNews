@@ -40,14 +40,14 @@ fun OnboardingPage(
         Spacer(modifier = Modifier.height(Dimens.MediumPadding1))
         Text(
             text = page.title,
-            modifier = Modifier.padding(horizontal = Dimens.MediumPadding2),
+            modifier = Modifier.padding(horizontal = Dimens.MediumPadding2).fillMaxHeight(0.3f),
             style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
             color = colorResource(id = R.color.display_small),
         )
 
         Text(
             text = page.description,
-            modifier = Modifier.padding(horizontal =Dimens.MediumPadding2),
+            modifier = Modifier.padding(horizontal =Dimens.MediumPadding2).fillMaxHeight(0.3f),
             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             color = colorResource(id = R.color.text_medium),
         )
