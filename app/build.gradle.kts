@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -72,5 +74,15 @@ dependencies {
     //Datastore
     implementation (libs.androidx.datastore.preferences)
 
+//    //Dagger Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation (libs.androidx.hilt.navigation.compose)
 
 }
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
+}
+
