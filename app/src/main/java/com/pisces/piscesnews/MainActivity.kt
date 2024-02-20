@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,14 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
-import com.pisces.piscesnews.domain.usecases.AppEntryUseCases
-import com.pisces.piscesnews.presentation.onboarding.OnBoardingScreen
-import com.pisces.piscesnews.presentation.onboarding.OnBoardingViewModel
+import com.pisces.piscesnews.domain.usecases.app_entry.AppEntryUseCases
+import com.pisces.piscesnews.presentation.navgrapgh.NavGraph
 import com.pisces.piscesnews.ui.theme.PiscesNewsTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,7 +35,12 @@ class MainActivity : ComponentActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window,false)
-        installSplashScreen()
+        val viewModel by viewModels<MainViewModel>()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                viewModel.splashCondition
+            }
+        }
         lifecycleScope.launch {
             appEntryUseCases.readAppEntry().collect(){
                 Log.d(TAG, "onCreate: Onboarded ${it.toString()}"  )
@@ -46,12 +50,13 @@ class MainActivity : ComponentActivity()
 
             PiscesNewsTheme {
                 // A surface container using the 'background' color from the theme
+                val isSystemInDarkMode = isSystemInDarkTheme()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val onBoardingViewModel:OnBoardingViewModel = hiltViewModel()
-                    OnBoardingScreen(onBoardingViewModel::onEvent)
+                    val startDestination = viewModel.startDestination
+                    NavGraph(startDestination = startDestination)
                 }
             }
         }

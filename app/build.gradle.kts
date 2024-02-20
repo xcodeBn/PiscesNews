@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.androidx.paging.common.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -79,6 +80,12 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation (libs.androidx.hilt.navigation.compose)
 
+    //Retrofit
+    implementation (libs.retrofit2.retrofit)
+    implementation (libs.converter.gson)
+
+    //Coil
+    implementation(libs.coil.compose)
 }
 
 // Allow references to generated code
