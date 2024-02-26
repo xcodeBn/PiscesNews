@@ -55,7 +55,9 @@ fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
 
     return when {
         loadState.refresh is LoadState.Loading -> {
-            ShimmerEffect()
+            repeat(10){
+                ShimmerEffect()
+            }
             false
         }
 

@@ -12,6 +12,8 @@ import com.pisces.piscesnews.presentation.home.HomeScreen
 import com.pisces.piscesnews.presentation.home.HomeViewModel
 import com.pisces.piscesnews.presentation.onboarding.OnBoardingScreen
 import com.pisces.piscesnews.presentation.onboarding.OnBoardingViewModel
+import com.pisces.piscesnews.presentation.search.SearchScreen
+import com.pisces.piscesnews.presentation.search.SearchViewModel
 
 @Composable
 fun NavGraph(
@@ -20,7 +22,7 @@ fun NavGraph(
     val navController = rememberNavController()
     val onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
     val homeViewModel:HomeViewModel = hiltViewModel()
-
+    val searchViewModel:SearchViewModel = hiltViewModel()
     NavHost(navController = navController, startDestination = startDestination){
 
         navigation(
@@ -36,7 +38,8 @@ fun NavGraph(
             startDestination=Route.NewsNavigatorScreen.route){
             composable(route= Route.NewsNavigatorScreen.route){
                 val articles = homeViewModel.news.collectAsLazyPagingItems()
-                HomeScreen(articles = articles, navigate ={} )
+                val searchArticles = searchViewModel.state.value
+                SearchScreen(state = searchViewModel.state.value,event=searchViewModel::onEvent, navigate = {} )
                 println("Tetttttt $articles")
             }
         }
