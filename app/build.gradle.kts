@@ -70,6 +70,8 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+
     //Splash Api
     implementation(libs.androidx.core.splashscreen)
     //Datastore
@@ -86,6 +88,11 @@ dependencies {
 
     //Coil
     implementation(libs.coil.compose)
+
+    //Paging
+
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 }
 
 // Allow references to generated code

@@ -7,6 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.pisces.piscesnews.presentation.home.HomeScreen
+import com.pisces.piscesnews.presentation.home.HomeViewModel
 import com.pisces.piscesnews.presentation.onboarding.OnBoardingScreen
 import com.pisces.piscesnews.presentation.onboarding.OnBoardingViewModel
 
@@ -16,6 +19,7 @@ fun NavGraph(
 ) {
     val navController = rememberNavController()
     val onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
+    val homeViewModel:HomeViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = startDestination){
 
@@ -31,8 +35,11 @@ fun NavGraph(
         navigation(route=Route.NewsNavigator.route,
             startDestination=Route.NewsNavigatorScreen.route){
             composable(route= Route.NewsNavigatorScreen.route){
-                Text(text = "News Navigator Screen")
+                val articles = homeViewModel.news.collectAsLazyPagingItems()
+                HomeScreen(articles = articles, navigate ={} )
+                println("Tetttttt $articles")
             }
         }
+
     }
 }

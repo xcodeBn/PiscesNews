@@ -1,4 +1,4 @@
-package com.pisces.piscesnews.presentation.common
+package com.pisces.piscesnews.presentation.onboarding.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
