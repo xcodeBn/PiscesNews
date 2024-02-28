@@ -16,9 +16,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.pisces.piscesnews.data.local.NewsDao
 import com.pisces.piscesnews.domain.usecases.app_entry.AppEntryUseCases
 import com.pisces.piscesnews.presentation.navgrapgh.NavGraph
 import com.pisces.piscesnews.ui.theme.PiscesNewsTheme
+import com.pisces.piscesnews.util.TestingData.GENERIC_ARTICLE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +28,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity()
 {
-    @Inject
-    lateinit var appEntryUseCases: AppEntryUseCases
+
 
     companion object{
         private const val TAG = "MainActivity"
@@ -41,11 +42,7 @@ class MainActivity : ComponentActivity()
                 viewModel.splashCondition
             }
         }
-        lifecycleScope.launch {
-            appEntryUseCases.readAppEntry().collect(){
-                Log.d(TAG, "onCreate: Onboarded ${it.toString()}"  )
-            }
-        }
+
         setContent {
 
             PiscesNewsTheme {

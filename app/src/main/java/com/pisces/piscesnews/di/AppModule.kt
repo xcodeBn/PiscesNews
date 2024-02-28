@@ -1,7 +1,11 @@
 package com.pisces.piscesnews.di
 
 import android.app.Application
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.google.gson.Gson
+import com.pisces.piscesnews.data.local.NewsTypeConverter
+import com.pisces.piscesnews.data.local.PiscesNewsDataBase
 import com.pisces.piscesnews.data.manager.LocalUserManagerImplementation
 import com.pisces.piscesnews.data.remote.NewsApi
 import com.pisces.piscesnews.data.repository.NewsRepositoryImplementation
@@ -14,6 +18,7 @@ import com.pisces.piscesnews.domain.usecases.news.GetNews
 import com.pisces.piscesnews.domain.usecases.news.NewsUseCases
 import com.pisces.piscesnews.domain.usecases.news.SearchNews
 import com.pisces.piscesnews.util.Constants.BASE_URL
+import com.pisces.piscesnews.util.Constants.NEWS_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,6 +66,25 @@ object AppModule {
         getNews = GetNews(newsRepository),
         searchNews = SearchNews(newsRepository)
     )
+
+
+    @Provides
+    @Singleton
+    fun provideNewsDataBase(
+        application: Application
+    ):PiscesNewsDataBase {
+        return Room.databaseBuilder(
+            context = application,
+            klass = PiscesNewsDataBase::class.java,
+            name = NEWS_DATABASE_NAME
+        ).addTypeConverter(NewsTypeConverter()).fallbackToDestructiveMigration().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsDoa(
+        newsDataBase: PiscesNewsDataBase
+    )= newsDataBase.newsDao
 
 
 }
