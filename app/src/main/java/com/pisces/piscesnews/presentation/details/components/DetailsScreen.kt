@@ -1,9 +1,7 @@
 package com.pisces.piscesnews.presentation.details.components
 
 import android.content.Intent
-import android.media.ImageReader
 import android.net.Uri
-import android.telecom.Call.Details
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -15,30 +13,38 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pisces.piscesnews.R
 import com.pisces.piscesnews.domain.model.Article
-import com.pisces.piscesnews.domain.model.Source
 import com.pisces.piscesnews.presentation.Dimens.ArticleImageHeight
 import com.pisces.piscesnews.presentation.Dimens.MediumPadding1
 import com.pisces.piscesnews.ui.theme.PiscesNewsTheme
 import com.pisces.piscesnews.util.TestingData.GENERIC_ARTICLE
+import kotlinx.coroutines.launch
+import kotlin.reflect.KSuspendFunction1
 
 @Composable
 fun DetailsScreen(
     article: Article,
-    event: (DetailsEvent)->Unit,
-    navigateUp: ()->Unit
+    event: (DetailsEvent) -> Unit,
+    navigateUp: ()->Unit,
+    sideEffect : String?,
+    isSaved: Boolean = false
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -59,8 +65,11 @@ fun DetailsScreen(
                                }
                            }
             },
-            onBookmarkClick = { event(DetailsEvent.SaveArticle) },
-            onBackClicked = navigateUp
+            onBookmarkClick = {
+                event(DetailsEvent.UpsertDeleteArticle(article))
+             },
+            onBackClicked = navigateUp,
+            isBookmarked = isSaved
         )
         
         LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding =
@@ -103,12 +112,3 @@ fun DetailsScreen(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun prevDetailsScreen() {
-    PiscesNewsTheme {
-        DetailsScreen( article = GENERIC_ARTICLE, event = {} ) {
-            
-        }
-    }
-}

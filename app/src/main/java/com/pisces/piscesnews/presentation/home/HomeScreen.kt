@@ -33,7 +33,7 @@ import com.pisces.piscesnews.presentation.navgrapgh.Route
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(articles: LazyPagingItems<Article>,navigate:(String)->Unit) {
+fun HomeScreen(articles: LazyPagingItems<Article>,navigateToSearch:()->Unit,navigateToDetails:(Article)->Unit) {
     val  titles by remember {
         derivedStateOf {
             if(articles.itemCount>10){
@@ -66,7 +66,7 @@ fun HomeScreen(articles: LazyPagingItems<Article>,navigate:(String)->Unit) {
             text = "",
             readOnly = true,
             onValueChange = {},
-            onClick = { navigate(Route.SearchScreen.route) },
+            onClick = { navigateToSearch() },
             onSearch = {}
         )
 
@@ -87,7 +87,7 @@ fun HomeScreen(articles: LazyPagingItems<Article>,navigate:(String)->Unit) {
             modifier = Modifier.padding(horizontal = MediumPadding1),
             articles = articles,
             onClick = {
-                navigate(Route.DetailScreen.route)
+                navigateToDetails(it)
             }
         )
     }

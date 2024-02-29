@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import com.pisces.piscesnews.domain.model.Article
 
 
-@Database(entities = [Article::class], version = 1)
+@Database(entities = [Article::class], version = 2)
 @TypeConverters(NewsTypeConverter::class)
 abstract class PiscesNewsDataBase:RoomDatabase() {
 

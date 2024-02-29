@@ -13,6 +13,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -28,9 +31,16 @@ fun DetailsTopBar(
     onBrowsingClick:()->Unit,
     onShareClick:()->Unit,
     onBookmarkClick:()->Unit,
-    onBackClicked:()->Unit
+    onBackClicked:()->Unit,
+    isBookmarked:Boolean=false
 ) {
 
+    val color = MaterialTheme.colorScheme.onPrimary
+    val bookMarkTint by remember {
+        mutableStateOf(
+            color
+        )
+    }
     TopAppBar(
         title = { },
         modifier = Modifier.fillMaxWidth(),
@@ -47,7 +57,8 @@ fun DetailsTopBar(
         actions = {
 
             IconButton(onClick = onBookmarkClick) {
-                Icon(painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = null )
+                Icon(painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = null,
+                    tint = if (isBookmarked) MaterialTheme.colorScheme.primary else Color.Gray)
             }
             IconButton(onClick = onShareClick) {
                 Icon(imageVector = Icons.Default.Share, contentDescription = null )
