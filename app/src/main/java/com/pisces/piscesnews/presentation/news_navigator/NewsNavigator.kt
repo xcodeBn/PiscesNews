@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,6 +36,7 @@ import com.pisces.piscesnews.presentation.news_navigator.component.BottomNavigat
 import com.pisces.piscesnews.presentation.news_navigator.component.NewsButtomNavigation
 import com.pisces.piscesnews.presentation.search.SearchScreen
 import com.pisces.piscesnews.presentation.search.SearchViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -136,17 +138,18 @@ fun NewsNavigator() {
             }
             composable(route = Route.DetailScreen.route) {
                 val viewModel: DetailsViewModel = hiltViewModel()
+
                 if(viewModel.sideEffect!=null){
                     Toast.makeText(LocalContext.current,viewModel.sideEffect,Toast.LENGTH_LONG).show()
                     viewModel.onEvent(DetailsEvent.RemoveSideEffect) }
                 navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")
                     ?.let { article ->
+                        viewModel.articleStuff(article)
                         DetailsScreen(
-                            article = article,
+                            state = viewModel.state.value,
                             event = viewModel::onEvent,
                             navigateUp = { navController.navigateUp() },
                             sideEffect = viewModel.sideEffect,
-                            isSaved = viewModel.isSaved.value
                         )
                     }
 

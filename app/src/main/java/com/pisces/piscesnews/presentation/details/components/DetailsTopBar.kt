@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -36,11 +37,15 @@ fun DetailsTopBar(
 ) {
 
     val color = MaterialTheme.colorScheme.onPrimary
-    val bookMarkTint by remember {
+    var bookMarkTint by remember {
         mutableStateOf(
             color
         )
     }
+
+    bookMarkTint = if (isBookmarked)
+        MaterialTheme.colorScheme.primary
+    else Color.Gray
     TopAppBar(
         title = { },
         modifier = Modifier.fillMaxWidth(),
@@ -58,7 +63,7 @@ fun DetailsTopBar(
 
             IconButton(onClick = onBookmarkClick) {
                 Icon(painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = null,
-                    tint = if (isBookmarked) MaterialTheme.colorScheme.primary else Color.Gray)
+                    tint = bookMarkTint)
             }
             IconButton(onClick = onShareClick) {
                 Icon(imageVector = Icons.Default.Share, contentDescription = null )

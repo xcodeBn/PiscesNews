@@ -17,6 +17,7 @@ import com.pisces.piscesnews.domain.usecases.app_entry.ReadAppEntry
 import com.pisces.piscesnews.domain.usecases.app_entry.SaveAppEntry
 import com.pisces.piscesnews.domain.usecases.news.DeleteArticle
 import com.pisces.piscesnews.domain.usecases.news.GetNews
+import com.pisces.piscesnews.domain.usecases.news.IsBookmarked
 import com.pisces.piscesnews.domain.usecases.news.NewsUseCases
 import com.pisces.piscesnews.domain.usecases.news.SearchNews
 import com.pisces.piscesnews.domain.usecases.news.SelectArticle
@@ -73,7 +74,8 @@ object AppModule {
         selectArticles = SelectArticles(newsRepository),
         deleteArticle = DeleteArticle(newsRepository),
         upsertArticle = UpsertArticle(newsRepository),
-        selectArticle = SelectArticle(newsRepository)
+        selectArticle = SelectArticle(newsRepository),
+        isBookmarked = IsBookmarked(newsRepository)
     )
 
 

@@ -88,6 +88,12 @@ fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
             false
         }
 
+        articles.itemCount==0->{
+            EmptyScreen()
+            false
+
+        }
+
         else -> {
             true
         }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import com.pisces.piscesnews.R
 import com.pisces.piscesnews.domain.model.Article
 import com.pisces.piscesnews.presentation.Dimens.MediumPadding1
 import com.pisces.piscesnews.presentation.common.ArticlesList
+import com.pisces.piscesnews.presentation.common.EmptyScreen
 import com.pisces.piscesnews.presentation.navgrapgh.Route
 
 
@@ -36,7 +38,9 @@ fun BookmarkScreen(
             color = colorResource(id = R.color.text_title))
 
         Spacer(modifier = Modifier.height(MediumPadding1))
-
+        if(state.articles.size==0){
+            EmptyScreen()
+        }
         ArticlesList(articles = state.articles, onClick ={
             navigateToDetails(it)
         })

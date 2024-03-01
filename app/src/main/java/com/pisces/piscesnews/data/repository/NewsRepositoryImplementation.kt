@@ -59,5 +59,9 @@ class NewsRepositoryImplementation(
        return newsDao.getArticle(url)
     }
 
+    override suspend fun isBookmarked(url: String): Boolean {
+        return newsDao.getArticle(url)!=null
+    }
+
 
 }

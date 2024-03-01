@@ -1,6 +1,6 @@
 package com.pisces.piscesnews.presentation.details.components
 
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,9 +16,25 @@ import javax.inject.Inject
 class DetailsViewModel
     @Inject constructor( private val newsUseCases: NewsUseCases):ViewModel() {
 
-        var isSaved: MutableState<Boolean> = mutableStateOf(false)
+        private val _state = mutableStateOf(DetailsState())
+        var state:State<DetailsState> = _state
         var sideEffect  by mutableStateOf<String?>(null)
             private set
+
+
+
+    fun articleStuff(article: Article){
+        _state.value = state.value.copy(article=article)
+        viewModelScope.launch {
+            if(isBookmarked(url = article.url))
+                _state.value = state.value.copy(isBookmarked = true)
+            else
+                _state.value = state.value.copy(isBookmarked = false)
+        }
+    }
+
+
+
 
 
     fun onEvent(event:DetailsEvent){
@@ -41,11 +57,12 @@ class DetailsViewModel
             is DetailsEvent.RemoveSideEffect->{
                 sideEffect = null
             }
+
+
         }
     }
 
     private suspend fun deleteArticle(article: Article) {
-        isSaved.value = false
         newsUseCases.deleteArticle(article)
         sideEffect ="Article Deleted!"
 
@@ -53,10 +70,14 @@ class DetailsViewModel
 
     private suspend fun upsertArticle(article: Article) {
 
-        isSaved.value = true
         newsUseCases.upsertArticle(article)
         sideEffect ="Article Saved!"
 
+    }
+
+
+     suspend fun isBookmarked(url:String): Boolean {
+        return newsUseCases.isBookmarked(url)
     }
 
 

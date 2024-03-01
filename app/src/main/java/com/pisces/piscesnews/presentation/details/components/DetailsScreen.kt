@@ -37,14 +37,17 @@ import kotlin.reflect.KSuspendFunction1
 
 @Composable
 fun DetailsScreen(
-    article: Article,
+    state: DetailsState ,
     event: (DetailsEvent) -> Unit,
     navigateUp: ()->Unit,
     sideEffect : String?,
-    isSaved: Boolean = false
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val article= state.article
+    val isSaved by remember {
+        mutableStateOf(state.isBookmarked)
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
