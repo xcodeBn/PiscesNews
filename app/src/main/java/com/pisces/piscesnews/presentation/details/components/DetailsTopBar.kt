@@ -1,6 +1,7 @@
 package com.pisces.piscesnews.presentation.details.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -33,17 +34,13 @@ fun DetailsTopBar(
     onShareClick:()->Unit,
     onBookmarkClick:()->Unit,
     onBackClicked:()->Unit,
-    isBookmarked:Boolean=false
+    isBookmarked:Boolean
 ) {
 
-    val color = MaterialTheme.colorScheme.onPrimary
-    var bookMarkTint by remember {
-        mutableStateOf(
-            color
-        )
-    }
+    val color = MaterialTheme.colorScheme.primary
 
-    bookMarkTint = if (isBookmarked)
+
+   val  bookMarkTint = if (isBookmarked)
         MaterialTheme.colorScheme.primary
     else Color.Gray
     TopAppBar(
@@ -63,7 +60,11 @@ fun DetailsTopBar(
 
             IconButton(onClick = onBookmarkClick) {
                 Icon(painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = null,
-                    tint = bookMarkTint)
+                    tint = bookMarkTint , modifier = Modifier.clickable {
+
+
+                        println("BookMark Color: ${isBookmarked}")
+                    })
             }
             IconButton(onClick = onShareClick) {
                 Icon(imageVector = Icons.Default.Share, contentDescription = null )
@@ -77,18 +78,3 @@ fun DetailsTopBar(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun prevTopAppBar() {
-    PiscesNewsTheme {
-        PiscesNewsTheme {
-            Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                DetailsTopBar(
-                    onBrowsingClick = { /*TODO*/ },
-                    onShareClick = { /*TODO*/ },
-                    onBookmarkClick = { /*TODO*/ },
-                    onBackClicked = {/* TODO: */ })
-            }
-        }
-    }
-}

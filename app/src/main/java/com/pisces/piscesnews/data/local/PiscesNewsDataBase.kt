@@ -13,3 +13,10 @@ abstract class PiscesNewsDataBase:RoomDatabase() {
 
     abstract val newsDao:NewsDao
 }
+
+
+
+fun <T> doStuff(): List<T> {
+
+    return emptyList()
+}

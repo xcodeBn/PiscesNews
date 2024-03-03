@@ -47,9 +47,12 @@ class DetailsViewModel
 
                     if(article==null){
                         upsertArticle(event.article)
+                        _state.value = state.value.copy(isBookmarked = true)
                     }
                     else{
                         deleteArticle(article)
+                        _state.value = state.value.copy(isBookmarked = false)
+
                     }
                 }
 
@@ -65,6 +68,7 @@ class DetailsViewModel
     private suspend fun deleteArticle(article: Article) {
         newsUseCases.deleteArticle(article)
         sideEffect ="Article Deleted!"
+        _state.value = state.value.copy(isBookmarked = false)
 
     }
 
@@ -72,6 +76,7 @@ class DetailsViewModel
 
         newsUseCases.upsertArticle(article)
         sideEffect ="Article Saved!"
+        _state.value = state.value.copy(isBookmarked = true)
 
     }
 
