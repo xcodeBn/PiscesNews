@@ -38,14 +38,14 @@ import kotlin.reflect.KSuspendFunction1
 
 @Composable
 fun DetailsScreen(
-    state: DetailsState ,
+    article: Article ,
     event: (DetailsEvent) -> Unit,
     navigateUp: ()->Unit,
     sideEffect : String?,
+    topBarState: TopBarState
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val article= state.article
 
 
 
@@ -70,10 +70,9 @@ fun DetailsScreen(
             },
             onBookmarkClick = {
                 event(DetailsEvent.UpsertDeleteArticle(article))
-                state.isBookmarked=!state.isBookmarked
              },
             onBackClicked = navigateUp,
-            isBookmarked = state.isBookmarked
+            topBarState=topBarState
         )
         
         LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding =

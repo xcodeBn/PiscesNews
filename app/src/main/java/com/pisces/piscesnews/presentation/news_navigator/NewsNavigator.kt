@@ -144,12 +144,12 @@ fun NewsNavigator() {
                     viewModel.onEvent(DetailsEvent.RemoveSideEffect) }
                 navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")
                     ?.let { article ->
-                        viewModel.articleStuff(article)
                         DetailsScreen(
-                            state = viewModel.state.value,
+                            article = article,
                             event = viewModel::onEvent,
                             navigateUp = { navController.navigateUp() },
                             sideEffect = viewModel.sideEffect,
+                            topBarState= viewModel.state.value
                         )
                     }
 

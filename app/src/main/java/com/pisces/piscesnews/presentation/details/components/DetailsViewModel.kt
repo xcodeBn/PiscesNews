@@ -16,15 +16,17 @@ import javax.inject.Inject
 class DetailsViewModel
     @Inject constructor( private val newsUseCases: NewsUseCases):ViewModel() {
 
-        private val _state = mutableStateOf(DetailsState())
-        var state:State<DetailsState> = _state
+        private val _state = mutableStateOf(TopBarState())
+        val state:State<TopBarState> = _state
         var sideEffect  by mutableStateOf<String?>(null)
             private set
 
 
 
+    init {
+
+    }
     fun articleStuff(article: Article){
-        _state.value = state.value.copy(article=article)
         viewModelScope.launch {
             if(isBookmarked(url = article.url))
                 _state.value = state.value.copy(isBookmarked = true)
@@ -47,7 +49,6 @@ class DetailsViewModel
 
                     if(article==null){
                         upsertArticle(event.article)
-                        _state.value = state.value.copy(isBookmarked = true)
                     }
                     else{
                         deleteArticle(article)
@@ -68,16 +69,13 @@ class DetailsViewModel
     private suspend fun deleteArticle(article: Article) {
         newsUseCases.deleteArticle(article)
         sideEffect ="Article Deleted!"
-        _state.value = state.value.copy(isBookmarked = false)
 
     }
 
     private suspend fun upsertArticle(article: Article) {
-
         newsUseCases.upsertArticle(article)
         sideEffect ="Article Saved!"
         _state.value = state.value.copy(isBookmarked = true)
-
     }
 
 

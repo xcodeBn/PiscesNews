@@ -34,15 +34,13 @@ fun DetailsTopBar(
     onShareClick:()->Unit,
     onBookmarkClick:()->Unit,
     onBackClicked:()->Unit,
-    isBookmarked:Boolean
+    topBarState:TopBarState
 ) {
 
     val color = MaterialTheme.colorScheme.primary
 
 
-   val  bookMarkTint = if (isBookmarked)
-        MaterialTheme.colorScheme.primary
-    else Color.Gray
+
     TopAppBar(
         title = { },
         modifier = Modifier.fillMaxWidth(),
@@ -59,12 +57,7 @@ fun DetailsTopBar(
         actions = {
 
             IconButton(onClick = onBookmarkClick) {
-                Icon(painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = null,
-                    tint = bookMarkTint , modifier = Modifier.clickable {
-
-
-                        println("BookMark Color: ${isBookmarked}")
-                    })
+                Icon(painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = null)
             }
             IconButton(onClick = onShareClick) {
                 Icon(imageVector = Icons.Default.Share, contentDescription = null )
