@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -144,12 +145,15 @@ fun NewsNavigator() {
                     viewModel.onEvent(DetailsEvent.RemoveSideEffect) }
                 navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")
                     ?.let { article ->
+
+                        val state = viewModel.observeArticle(article).collectAsState(initial = article)
+
+
                         DetailsScreen(
-                            article = article,
+                            article = state.value,
                             event = viewModel::onEvent,
                             navigateUp = { navController.navigateUp() },
                             sideEffect = viewModel.sideEffect,
-                            topBarState= viewModel.state.value
                         )
                     }
 

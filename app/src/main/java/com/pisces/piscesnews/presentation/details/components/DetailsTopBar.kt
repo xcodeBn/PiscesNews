@@ -24,6 +24,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.pisces.piscesnews.R
+import com.pisces.piscesnews.domain.usecases.news.IsBookmarked
 import com.pisces.piscesnews.ui.theme.PiscesNewsTheme
 
 
@@ -34,7 +35,7 @@ fun DetailsTopBar(
     onShareClick:()->Unit,
     onBookmarkClick:()->Unit,
     onBackClicked:()->Unit,
-    topBarState:TopBarState
+    isBookmarked: Boolean
 ) {
 
     val color = MaterialTheme.colorScheme.primary
@@ -57,7 +58,7 @@ fun DetailsTopBar(
         actions = {
 
             IconButton(onClick = onBookmarkClick) {
-                Icon(painter = painterResource(id = R.drawable.ic_bookmark), contentDescription = null)
+                Icon(painter = painterResource(id = if(isBookmarked) R.drawable.ic_bookmarked else R.drawable.ic_bookmark), contentDescription = null)
             }
             IconButton(onClick = onShareClick) {
                 Icon(imageVector = Icons.Default.Share, contentDescription = null )

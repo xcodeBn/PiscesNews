@@ -93,7 +93,7 @@ fun ArticleCard(
                 Spacer(modifier = Modifier.width(ExtraSmallPadding2))
 
                 Text(
-                    text = article.publishedAt,
+                    text = article.extractAndFormatTimestamp(),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = colorResource(
                         id = R.color.text_title
@@ -113,17 +113,18 @@ fun ArticleCard(
 fun ArticlePreview() {
 PiscesNewsTheme {
     Surface(){
+        val article = Article(
+            author = "John Doe",
+            content = "Some content",
+            description = "Some description",
+            publishedAt = "2024-08-28T12:34:56Z",
+            source = Source("example","sa"),
+            title = "Some title",
+            url = "https://example.com",
+            urlToImage = "https://example.com/image.jpg"
+        )
         ArticleCard(
-            article = Article(
-                "Biko",
-                "aks jdaj sakdj askdj askdj askd jaskdj askdj  askdj askdj askdjaskd jakdj askd jaskd jaskdjaskdj ak",
-                description = "shshsh",
-                publishedAt = "2022",
-                title = "Wow this is so interesting i hope you die nibba holy shit",
-                source = Source("sa","sa"),
-                url = "google.com",
-                urlToImage = ""
-            )
+            article = article
         ) {
 
         }

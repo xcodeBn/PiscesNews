@@ -7,17 +7,20 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pisces.piscesnews.domain.model.Article
+import com.pisces.piscesnews.domain.model.Source
 import com.pisces.piscesnews.domain.usecases.news.NewsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import java.util.concurrent.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel
     @Inject constructor( private val newsUseCases: NewsUseCases):ViewModel() {
 
-        private val _state = mutableStateOf(TopBarState())
-        val state:State<TopBarState> = _state
+        private val _state = mutableStateOf(Article("","","","", Source("",""),"","","",false))
+        val state:State<Article> = _state
         var sideEffect  by mutableStateOf<String?>(null)
             private set
 
@@ -26,16 +29,13 @@ class DetailsViewModel
     init {
 
     }
-    fun articleStuff(article: Article){
-        viewModelScope.launch {
-            if(isBookmarked(url = article.url))
-                _state.value = state.value.copy(isBookmarked = true)
-            else
-                _state.value = state.value.copy(isBookmarked = false)
+
+    fun observeArticle(article: Article):kotlinx.coroutines.flow.Flow<Article>{
+        _state.value = article
+        return flow {
+            _state.value
         }
     }
-
-
 
 
 
@@ -52,8 +52,6 @@ class DetailsViewModel
                     }
                     else{
                         deleteArticle(article)
-                        _state.value = state.value.copy(isBookmarked = false)
-
                     }
                 }
 
@@ -68,6 +66,7 @@ class DetailsViewModel
 
     private suspend fun deleteArticle(article: Article) {
         newsUseCases.deleteArticle(article)
+        _state.value = state.value.copy(isBookmarked = false)
         sideEffect ="Article Deleted!"
 
     }
@@ -79,9 +78,7 @@ class DetailsViewModel
     }
 
 
-     suspend fun isBookmarked(url:String): Boolean {
-        return newsUseCases.isBookmarked(url)
-    }
+
 
 
 }

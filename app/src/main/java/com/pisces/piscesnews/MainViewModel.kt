@@ -34,7 +34,7 @@ class MainViewModel @Inject constructor(
             else{
                 startDestination = Route.AppStartNavigation.route
             }
-            delay(300)
+            delay(400)
             splashCondition=false
         }.launchIn(viewModelScope)
     }

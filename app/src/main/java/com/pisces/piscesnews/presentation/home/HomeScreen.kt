@@ -34,6 +34,7 @@ import com.pisces.piscesnews.presentation.navgrapgh.Route
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(articles: LazyPagingItems<Article>,navigateToSearch:()->Unit,navigateToDetails:(Article)->Unit) {
+
     val  titles by remember {
         derivedStateOf {
             if(articles.itemCount>10){

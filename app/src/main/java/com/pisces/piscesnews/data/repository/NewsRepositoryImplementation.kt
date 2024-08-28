@@ -44,7 +44,7 @@ class NewsRepositoryImplementation(
     }
 
     override suspend fun upsertArticle(article: Article) {
-       newsDao.upsert(article)
+       newsDao.upsert(article.copy(isBookmarked=true))
     }
 
     override suspend fun deleteArticle(article: Article) {

@@ -41,8 +41,7 @@ fun DetailsScreen(
     article: Article ,
     event: (DetailsEvent) -> Unit,
     navigateUp: ()->Unit,
-    sideEffect : String?,
-    topBarState: TopBarState
+    sideEffect : String?
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -72,7 +71,7 @@ fun DetailsScreen(
                 event(DetailsEvent.UpsertDeleteArticle(article))
              },
             onBackClicked = navigateUp,
-            topBarState=topBarState
+            isBookmarked = article.isBookmarked
         )
         
         LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding =
